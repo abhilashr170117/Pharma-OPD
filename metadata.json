@@ -1,0 +1,6 @@
+{
+  "name": "Mercy Clinic OPD Portal",
+  "description": "Digital prescription builder, patient history tracker, and lightweight drug inventory search engine for Mercy Clinic.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
