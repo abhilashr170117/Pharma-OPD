@@ -1,19 +1,16 @@
 import express from 'express';
 import path from 'path';
 import fs from 'fs';
-import { fileURLToPath } from 'url';
 import dotenv from 'dotenv';
 import { INITIAL_DRUGS_DATA } from './src/drugsData.js';
 import { Prescription, Drug, User } from './src/types.js';
 
 dotenv.config();
 
-// Fix for resolving paths in both local and Render environments
-const __filename = fileURLToPath(import.meta.url);
-const resolvedDirname = path.dirname(__filename);
+// Use __dirname directly, which is available in CJS
+const resolvedDirname = typeof __dirname !== 'undefined' ? __dirname : process.cwd();
 
 const app = express();
-// IMPORTANT: Use Render's assigned PORT or default to 3000
 const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
