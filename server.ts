@@ -13,7 +13,12 @@ const resolvedDirname = typeof __dirname !== 'undefined' ? __dirname : process.c
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+app.use((req, res, next) => {
+  console.log(`Incoming request: ${req.method} ${req.url}`);
+  next();
+});
 app.use(express.json());
+
 
 // Ensure data folder exists
 const DATA_DIR = path.join(resolvedDirname, 'data');
