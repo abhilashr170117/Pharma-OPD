@@ -74,29 +74,26 @@ if (!fs.existsSync(DRUGS_FILE) || readJSONFile<Drug[]>(DRUGS_FILE, []).length < 
 
 // --- Production Static Serving Fix ---
 // const DIST_DIR = path.join(resolvedDirname, 'dist');
-const DIST_DIR = path.join(resolvedDirname || process.cwd(), 'dist');
-console.log("Static files directory:", DIST_DIR);
+// Replace your existing DIST_DIR and fallback route logic with this:
+
+// 1. Point to the root directory where 'dist' actually lives
+const ROOT_DIR = process.cwd(); 
+const DIST_DIR = path.join(ROOT_DIR, 'dist'); 
+
+console.log("Serving from:", DIST_DIR);
 
 if (fs.existsSync(DIST_DIR)) {
   app.use(express.static(DIST_DIR));
 }
 
-// Fallback all routes to index.html for React SPA
 app.get('*', (req, res, next) => {
   if (req.path.startsWith('/api')) return next();
   
   const indexHtml = path.join(DIST_DIR, 'index.html');
-  
-  // Debugging: Log the path
-  console.log("Checking for index.html at:", indexHtml);
-  console.log("Does folder exist?", fs.existsSync(DIST_DIR));
-
   if (fs.existsSync(indexHtml)) {
     return res.sendFile(indexHtml);
   } else {
-    // List what is actually in the dist folder to help us debug
-    const files = fs.existsSync(DIST_DIR) ? fs.readdirSync(DIST_DIR) : "Folder not found";
-    return res.status(404).send(`Frontend not built. Looking at: ${indexHtml}. Folder contents: ${JSON.stringify(files)}`);
+    return res.status(404).send(`File not found: ${indexHtml}`);
   }
 });
 
