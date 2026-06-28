@@ -76,7 +76,8 @@ if (!fs.existsSync(DRUGS_FILE) || readJSONFile<Drug[]>(DRUGS_FILE, []).length < 
 // [Insert all your existing app.post, app.get, etc. routes here]
 
 // --- Production Static Serving Fix ---
-const DIST_DIR = path.join(resolvedDirname, 'dist');
+// const DIST_DIR = path.join(resolvedDirname, 'dist');
+const DIST_DIR = path.join(resolvedDirname || process.cwd(), 'dist');
 console.log("Static files directory:", DIST_DIR);
 
 if (fs.existsSync(DIST_DIR)) {
