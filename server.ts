@@ -86,10 +86,17 @@ app.get('*', (req, res, next) => {
   if (req.path.startsWith('/api')) return next();
   
   const indexHtml = path.join(DIST_DIR, 'index.html');
+  
+  // Debugging: Log the path
+  console.log("Checking for index.html at:", indexHtml);
+  console.log("Does folder exist?", fs.existsSync(DIST_DIR));
+
   if (fs.existsSync(indexHtml)) {
     return res.sendFile(indexHtml);
   } else {
-    return res.status(404).send('Frontend not built. Ensure "dist" folder exists.');
+    // List what is actually in the dist folder to help us debug
+    const files = fs.existsSync(DIST_DIR) ? fs.readdirSync(DIST_DIR) : "Folder not found";
+    return res.status(404).send(`Frontend not built. Looking at: ${indexHtml}. Folder contents: ${JSON.stringify(files)}`);
   }
 });
 
